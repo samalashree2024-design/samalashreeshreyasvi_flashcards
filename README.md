@@ -1,28 +1,49 @@
-# 1. Tech Stack and Scope
+# KonnichiWow Frontend
 
-- **Frontend only**
-  - This repo contains only the frontend.
-- **Language & runtime**
-  - React with **TSX**.
-  - Node + **npm** as the package manager.
-  - **Next.js App Router** for file-based routing (automatic route generation).
-- **Styling**
-  - **Tailwind CSS** for all styling.
-  - Layouts must use **flexbox** (`flex`, `flex-col`, `flex-row`, `items-*`, `justify-*`, `gap-*`) plus responsive modifiers like `md:*`.
-- **Icons**
-  - **Heroicons only**: `@heroicons/react/24/outline` and `@heroicons/react/24/solid`.
-- **UI Primitives**
-  - **`tailwind-variants`** for reusable class recipes (Button, Input, Card).
-- **Design**
-  - Visual design (colors, type, spacing) is provided in Figma.
+This repository contains the **frontend-only implementation** of the KonnichiWow application, built as part of the internship assignment.  
+All pages and components are implemented according to the **Figma designs provided**.
+
+The project focuses on clean structure, type safety, reusable UI primitives, responsive layouts, and consistent coding standards using modern **Next.js App Router** and **Tailwind CSS**.
 
 ---
 
-# 2. Project Structure
+## Tech Stack & Scope
 
-You can add components if needed. Consult before removing.
+### Scope
+- Frontend only
+- No backend or authentication logic
+- UI and interactions only
 
-```
+### Language & Runtime
+- React with **TypeScript (TSX)**
+- Node.js with **npm** as the package manager
+- **Next.js App Router** for file-based routing
+
+### Styling
+- **Tailwind CSS** for all styling
+- Layouts built using **Flexbox utilities**
+  - `flex`, `flex-col`, `flex-row`
+  - `items-*`, `justify-*`, `gap-*`
+- Responsive behavior using modifiers like `md:*`
+
+### Icons
+- **Heroicons only**
+  - `@heroicons/react/24/outline`
+  - `@heroicons/react/24/solid`
+
+### UI Primitives
+- **tailwind-variants** for reusable UI recipes:
+  - Button
+  - Input
+  - Card
+
+---
+
+## Project Structure
+
+The project follows feature-based organization and Next.js App Router conventions.
+
+
 app/
   (auth)/
     login/
@@ -61,214 +82,180 @@ ui/
 
 lib/
   types.ts
-```
+Routing (Next.js App Router)
 
----
+Routes are automatically generated from the folder structure. No manual routing configuration is required.
 
-# 3. Routing Setup (Next.js App Router)
+Route Groups
 
-Routes are **automatically generated** from folder structure. No manual route configuration needed.
+Parentheses are used to group routes without affecting the URL:
 
-## Route Groups
+(auth)/login/page.tsx → /login
 
-Use parentheses to group routes without affecting URL:
-- `(auth)/login/page.tsx` → `/login` (not `/auth/login`)
-- `(app)/flashcard/deck/page.tsx` → `/flashcard/deck`
+(auth)/signup/page.tsx → /signup
 
----
+(auth)/forgot-password/page.tsx → /forgot-password
 
-# 4. Access Dynamic Params
+(app)/flashcard/deck/page.tsx → /flashcard/deck
 
-Dynamic segments in URLs use square brackets (e.g., `[lessonId]`, `[deckId]`). Pages using dynamic params should properly wire the route segments to display the correct content based on the URL parameters.
+Server vs Client Components
 
----
+The following rules are followed throughout the project:
 
-# 5. Server vs Client Components
+Requirement	Component Type
+Static UI	Server Component
+Hooks (useState, useEffect)	Client Component
+Event handlers (onClick, onChange)	Client Component
+Browser APIs	Client Component
+Interactive UI	Client Component
 
-## Rule of Thumb
+Client components explicitly use the "use client" directive.
 
-| Need | Use |
-|------|-----|
-| Display static content | **Server Component** |
-| Use hooks (`useState`, `useEffect`) | **`'use client'`** |
-| Event handlers (`onClick`, `onChange`) | **`'use client'`** |
-| Browser APIs | **`'use client'`** |
-| Real-time interactivity | **`'use client'`** |
+TypeScript Usage
 
----
+Shared and reusable types are defined in lib/types.ts
 
-# 6. Type Definitions
+All component props and data structures are strictly typed
 
-Create reusable types in `lib/types.ts`. Define interfaces for domain objects such as:
-- User (id, name, email, profile data)
-- Flashcard (id, question, answer, difficulty)
-- Deck (id, title, description, cards)
-- Auth-related types (login credentials, signup data)
+Example Domain Types
 
-All component props and shared data structures should be typed.
+User
 
----
+Flashcard
 
-# 7. Component Props
+Deck
 
-Always type component props clearly. Each component should have well-defined prop interfaces that describe:
-- Required vs optional props
-- Data types for each prop
-- Callback functions if needed
+Authentication-related types
 
----
+Naming Conventions
 
-# 8. TypeScript Naming
+camelCase for variables, functions, props, and hooks
 
-Follow these naming conventions:
-- **camelCase** for variables, functions, props, and hooks
-- **PascalCase** for React components and their files
-- **PascalCase** for TypeScript interfaces and types
-- **UPPER_SNAKE_CASE** only for true constants
+PascalCase for React components and TypeScript types
 
----
+UPPER_SNAKE_CASE only for constants
 
-# 9. Components
+Layout & Responsiveness
 
-- Use function components only
-- One top-level component per file; filename matches component name
-- Always type destructured props
-- Organize components by feature (Auth, Flashcard)
-- Create reusable, presentational components
+All layouts are built using flexbox
 
----
+Responsive patterns include:
 
-# 10. Layout & Responsiveness
+flex-col md:flex-row
 
-Global pattern: Use **flexbox for all layout**.
+w-full md:w-1/2
 
-Key guidelines:
-- Use `flex`, `flex-col`, `flex-row`, `items-*`, `justify-*`, `gap-*` utilities
-- Apply responsive modifiers: `flex-col md:flex-row`, `w-full md:w-1/2`
-- Avoid fixed widths/heights; prefer `w-full`, `max-w-*`, `flex-1`
-- Use `gap-*` for spacing between flex children
+Fixed widths/heights are avoided where possible
 
----
+Spacing between elements uses gap-*
 
-# 11. Tailwind Usage & `tailwind-variants`
+Mobile layouts are implemented as per the Figma designs.
 
-Define reusable **class recipes** using `tailwind-variants` for UI primitives (Button, Input, Card).
+Tailwind & tailwind-variants
 
-**Tailwind Class Ordering** (keep consistent):
-1. Layout: `flex flex-col items-center justify-between`
-2. Sizing & spacing: `w-full h-10 px-4 py-2 gap-2`
-3. Typography: `text-sm font-medium`
-4. Colors & borders: `bg-indigo-600 text-white border border-slate-700`
-5. Effects & states: `shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2`
+Reusable UI primitives are defined using tailwind-variants in the ui/ folder.
 
-Create recipes for reusable components in the `ui/` folder instead of large wrapper components.
+Tailwind class ordering is kept consistent:
 
----
+Layout
 
-# 12. Animations
+Sizing & spacing
 
-Use **tailwindcss-motions** utilities combined with Tailwind's `transition-*` utilities for animations and transitions.
+Typography
 
-Apply animations for:
-- Page/component entrance effects
-- Hover and active states
-- Subtle transitions between states
-- Interactive feedback
+Colors & borders
 
-Keep animations smooth and purposeful.
+Effects & states
 
----
 
-# 13. Authentication Section
+tailwindcss-motions
 
-The Authentication section includes three main pages:
+Tailwind transition-* utilities
 
-- **Login Page** (`/login`)
-- **Signup Page** (`/signup`)
-- **Forgot Password Page** (`/forgot-password`)
+Applied for:
 
----
+Hover and active states
 
-# 14. Flashcards Section
+Page and component entrance effects
 
-The Flashcards section includes interactive learning pages:
+Interactive feedback
 
-- **Deck Menu Page** (`/flashcard/deck-menu`)
-- **Levels Selection Page** (`/flashcard/levels`)
-- **Flashcard Study Page** (`/flashcard/card`)
-- **Flashcard Deck Management Page** (`/flashcard/deck`)
+Animations are subtle and purposeful.
 
----
+Authentication Pages
 
-# 15. Figma Design
+The authentication section includes:
 
-All UI components and pages should be designed according to the provided Figma design system.
+Login Page (/login)
 
-Refer to the Figma link for:
-- Component library and specifications
-- Color system and typography
-- Spacing and layout guidelines
-- Visual hierarchy
+Signup Page (/signup)
 
-Copy components from figma as png/svg to use them as well if necessary
+Forgot Password Page (/forgot-password)
 
----
+All pages are frontend-only and follow the provided design system.
 
-# 11. Git Commit Conventions (Conventional Commits)
+Flashcards Pages
 
-## Commit Conventions
-Follow **Conventional Commits** strictly for all commit messages.
+The flashcards section includes:
 
-Format:
+Deck Menu (/flashcard/deck-menu)
 
-```txt
-<type>(<optional scope>): <description>
+Levels Selection (/flashcard/levels)
 
-[optional body]
+Flashcard Study (/flashcard/card)
 
-[optional footer]
-```
+Deck Management (/flashcard/deck)
 
-Common types:
+An example JSON structure is used to simulate flashcard and deck data.
 
-- `feat` – add/update/remove a user-facing or API feature.
-- `fix` – bug fix.
-- `refactor` – code change without behavior change.
-- `chore` – misc tasks (last resort).
+Figma Design
 
-Examples:
+All UI components and pages are implemented according to the provided Figma design system, including:
 
-```txt
-feat: add quiz submission flow
-fix(login): prevent submit on empty password
-refactor: extract lesson overview header
-```
+Color palette
 
-Cheatsheet:  
-https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13
+Typography
 
----
-## Commits
+Spacing and layout rules
 
-- Commit atleast after every page has been made
-- Commit history will be checked
+Visual hierarchy
 
+Assets are referenced from Figma where required.
 
----
-# 17. Documentation Links
+Git Commit Conventions
 
-- **Next.js App Router Docs**: https://nextjs.org/docs/app
-- **Next.js Server Components**: https://nextjs.org/docs/app/building-your-application/rendering/server-components
-- **Next.js Client Components**: https://nextjs.org/docs/app/building-your-application/rendering/client-components
-- **TypeScript Handbook**: https://www.typescriptlang.org/docs/
-- **Tailwind CSS Docs**: https://tailwindcss.com/docs
-- **Tailwind motions Docs** (tailwindcss-motions): https://docs.rombo.co/tailwind
-- **Tailwind CSS Extend Theme**: https://tailwindcss.com/docs/theme#extending-the-default-theme
-- **tailwind-variants Docs**: https://www.tailwind-variants.org/docs/getting-started
-- **Heroicons Docs**: https://heroicons.com/
-- **Conventional Commits Cheatsheet**: https://gist.github.com/qoomon/5dfcdf8eec66a051ecd85625518cfd13
+This project strictly follows Conventional Commits.
 
----
-# 18. Brownie Points
-- Implement mobile view as given in figma
-- Use an example json file to take inputs from
+Format
+<type>(optional scope): description
+
+Examples
+
+feat: add login page UI
+
+fix(login): prevent empty password submit
+
+refactor: extract flashcard card view
+
+Commits are made after completing each page, and commit history is maintained cleanly.
+
+Running the Project
+npm install
+npm run dev
+
+
+Open in the browser:
+
+http://localhost:3000
+
+Notes
+
+This is a frontend-only project
+
+No backend APIs or authentication logic are included
+
+Images and assets are handled according to the Figma design
+
+Code follows the provided guidelines and conventions
+
+
