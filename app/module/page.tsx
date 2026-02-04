@@ -7,12 +7,12 @@ export default function VocabularyPage() {
   const router = useRouter();
 
   const modules = [
-    { id: 1, name: "Module Name", description: "Module Description" },
-    { id: 2, name: "Module Name", description: "Module Description" },
-    { id: 3, name: "Module Name", description: "Module Description" },
-    { id: 4, name: "Module Name", description: "Module Description" },
-    { id: 5, name: "Module Name", description: "Module Description" },
-    { id: 6, name: "Module Name", description: "Module Description" },
+    { id: 1, name: "Module Name-1", description: "Module Description" },
+    { id: 2, name: "Module Name-2", description: "Module Description" },
+    { id: 3, name: "Module Name-3", description: "Module Description" },
+    { id: 4, name: "Module Name-4", description: "Module Description" },
+    { id: 5, name: "Module Name-5", description: "Module Description" },
+    { id: 6, name: "Module Name-6", description: "Module Description" },
   ];
 
   return (

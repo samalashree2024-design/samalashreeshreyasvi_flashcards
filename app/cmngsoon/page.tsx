@@ -8,34 +8,32 @@ export default function ComingSoonPage() {
 
   return (
     <div style={styles.container}>
-      {/* 1. PINK HEADER BAR - Logo removed to stop double-text */}
-      <div style={styles.header} />
+      {/* 1. TRANSPARENT HEADER - Only contains the Logout button */}
+      <div style={styles.header}>
+        <div /> {/* Empty space where the logo used to be */}
+        <button style={styles.logoutBtn} onClick={() => router.push("/login")}>
+           Logout
+        </button>
+      </div>
 
-      {/* 2. MAIN CONTENT AREA */}
-      <div style={styles.contentArea}>
-        <div style={styles.imageContainer}>
-          {/* Your PNG from the public folder */}
-          <img 
-            src="/coming-soon.png" 
-            alt="Coming Soon" 
-            style={styles.mainImage} 
-          />
-          
-          {/* 3. THE CLICKABLE HITBOX */}
-          {/* This sits perfectly over the 'Back' button in your picture */}
-          <button
-            onClick={() => router.back()}
-            style={styles.hitbox}
-            onMouseDown={(e) => {
-              e.currentTarget.style.transform = "translateX(-50%) scale(0.96)";
-            }}
-            onMouseUp={(e) => {
-              e.currentTarget.style.transform = "translateX(-50%) scale(1)";
-            }}
-          >
-            Back
-          </button>
-        </div>
+      {/* 2. FULL SCREEN BACKGROUND IMAGE */}
+      <div style={styles.imageBackground}>
+        {/* 3. THE CLICKABLE BACK BUTTON */}
+        <button
+          onClick={() => router.back()}
+          style={styles.hitbox}
+          onMouseDown={(e) => {
+            e.currentTarget.style.transform = "translateX(-50%) translateY(4px)";
+          }}
+          onMouseUp={(e) => {
+            e.currentTarget.style.transform = "translateX(-50%) translateY(0)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "translateX(-50%) translateY(0)";
+          }}
+        >
+          Back
+        </button>
       </div>
     </div>
   );
@@ -47,48 +45,56 @@ const styles: Record<string, React.CSSProperties> = {
     width: "100vw",
     display: "flex",
     flexDirection: "column",
-    backgroundColor: "#4FD1C5", // Teal green to match image
-    overflow: "hidden",
+    backgroundColor: "#4FD1C5", 
     margin: 0,
     padding: 0,
+    overflow: "hidden",
+    position: "relative",
   },
   header: {
     height: "60px",
-    backgroundColor: "#E91E63", // Pink bar
-    width: "100%",
-    zIndex: 10,
-  },
-  contentArea: {
-    flex: 1,
+    backgroundColor: "transparent", 
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
+    justifyContent: "space-between",
+    padding: "0 40px",
+    position: "absolute", 
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 100,
   },
-  imageContainer: {
-    position: "relative",
-    height: "75%", 
-    display: "flex",
-    justifyContent: "center",
+  logoutBtn: {
+    backgroundColor: "transparent",
+    color: "white",
+    border: "1px solid white",
+    borderRadius: "6px",
+    padding: "6px 16px",
+    cursor: "pointer",
+    fontWeight: "bold",
   },
-  mainImage: {
-    height: "80%",
-    width: "auto",
-    objectFit: "contain",
+  imageBackground: {
+    width: "100%",
+    height: "100%",
+    backgroundImage: "url('/coming-soon.png')",
+    backgroundSize: "100% 100%", // Occupies full screen sidewise
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    position: "relative",
   },
   hitbox: {
     position: "absolute",
-    bottom: "34%", // Locked to the 'Back' button in your PNG
+    bottom: "18%", 
     left: "50%",
     transform: "translateX(-50%)",
-    width: "200px", 
-    height: "55px",
-    backgroundColor: "transparent", // Invisible so the image button shows
+    width: "240px", 
+    height: "225px",
+    backgroundColor: "transparent", 
     border: "none",
     cursor: "pointer",
-    color: "transparent", // Hides the word 'Back'
+    color: "transparent", 
     outline: "none",
-    zIndex: 40,
-    transition: "transform 0.1s ease",
+    zIndex: 110,
+    transition: "transform 0.05s ease",
   },
 };
